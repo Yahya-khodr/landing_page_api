@@ -85,6 +85,33 @@ class AuthController extends Controller
         return response()->json(auth()->user());
     }
     /**
+     * Update user profile.
+     * 
+     */
+    public function updateProfile($id, Request $request){
+        $validator = Validator::make($request->all(), [
+            'name' => 'required|string|between:2,100',
+            'email' => 'required|string|email|max:100|unique:users',
+            'password' => 'required|string|confirmed|min:6',
+            'user_avatar' => 'nullable|image|max:4096',
+        ]);
+        if($request->hasFile('user_avatar')){
+            $image_name = $request->file('user_avatar')->getClientOriginalName();
+            $new_name = time().'.' . explode('/', explode(':', substr($image_name, 0, strpos($image_name, ';')))[1])[1];
+            $path = $request->file('user_avatar')->store('public/images');
+        }
+        $user = Auth::user();
+        $user->name = $request['name'];
+        $user->email = $request['email'];
+        $user->password = $request['password'];
+        $user->user_avatar = $new_name;
+        $user->save();
+        return response()->json([
+            'message' => 'User Profile has been Updated',
+            'status' =>true
+        ]);
+    }
+    /**
      * Get the token array structure.
      *
      * @param  string $token
