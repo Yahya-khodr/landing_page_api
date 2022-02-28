@@ -54,6 +54,7 @@ class AuthController extends Controller
                     ['password' => bcrypt($request->password)]
                 ));
         return response()->json([
+            'status' => true,
             'message' => 'User successfully registered',
             'user' => $user
         ], 201);
@@ -90,9 +91,9 @@ class AuthController extends Controller
      */
     public function updateProfile( Request $request){
         $validator = Validator::make($request->all(), [
-            'name' => 'required|string|between:2,100',
-            'email' => 'required|string|email|max:100|unique:users',
-            'password' => 'required|string|confirmed|min:6',
+            // 'name' => 'required|string|between:2,100',
+            // 'email' => 'required|string|email|max:100|unique:users',
+            // 'password' => 'required|string|confirmed|min:6',
             'user_avatar' => 'nullable|image|max:4096',
         ]);
         if($request->hasFile('user_avatar')){
@@ -105,7 +106,7 @@ class AuthController extends Controller
         $user->name = $request['name'];
         $user->email = $request['email'];
         $user->password =  bcrypt($request['password']);
-        $user->user_avatar = $image_name;
+        // $user->user_avatar = $image_name;
         $user->save();
         return response()->json([
             'message' => 'Profile Updated !',
