@@ -100,14 +100,15 @@ class AuthController extends Controller
             $new_name = time().'.' . explode('/', explode(':', substr($image_name, 0, strpos($image_name, ';')))[1])[1];
             $path = $request->file('user_avatar')->store('public/images');
         }
-        $user = Auth::user();
+        
+        $user = User::find($id);
         $user->name = $request['name'];
         $user->email = $request['email'];
         $user->password = $request['password'];
         $user->user_avatar = $new_name;
         $user->save();
         return response()->json([
-            'message' => 'User Profile has been Updated',
+            'message' => 'Profile Updated !',
             'status' =>true
         ]);
     }
