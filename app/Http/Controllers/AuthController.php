@@ -97,7 +97,8 @@ class AuthController extends Controller
         ]);
         if($request->hasFile('user_avatar')){
             $image_name = $request->file('user_avatar')->getClientOriginalName();
-            $path = $request->file('user_avatar')->store('public/images');
+            // $path = $request->file('user_avatar')->store('public/images');
+            $request->file('user_avatar')->move(\public_path('/images'),$image_name);
         }
         
         $user = Auth::user();
@@ -108,7 +109,8 @@ class AuthController extends Controller
         $user->save();
         return response()->json([
             'message' => 'Profile Updated !',
-            'status' =>true
+            'status' =>true,
+            'user_avatar' => $user->user_avatar,
         ]);
     }
     /**
