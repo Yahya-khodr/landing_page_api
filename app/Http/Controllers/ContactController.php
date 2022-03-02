@@ -10,8 +10,9 @@ class ContactController extends Controller
 {
     function addContact(Request $request){
         $data = $request->all();
+
+
         $contact = new Contact;
-        
         $contact->name = $data["name"];
         $contact->email = $data["email"];
         $contact->subject = $data["subject"];
