@@ -22,4 +22,7 @@ Route::group([
     Route::post('/refresh', [AuthController::class, 'refresh']);
     Route::get('/user-profile', [AuthController::class, 'userProfile']);    
     Route::post('/update-profile', [AuthController::class, 'updateProfile']);    
+
+    Route::post('/add-contact', [ContactController::class, 'addContact']);
+    
 });
